@@ -38,3 +38,4 @@
 2026-04-27T15:33:03  fix: the cake is a lie, but the bug was real
 2024-06-03T14:34:14  chore(deps): add a dry-run flag
 2024-06-28T09:51:21  fix: works on my machine (TM)
+2024-07-24T16:08:28  style(engine): cover the multiline case
