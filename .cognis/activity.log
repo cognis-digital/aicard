@@ -43,3 +43,4 @@
 2024-08-28T18:42:42  docs(scoring): respect .gitignore when walking
 2024-09-06T13:59:49  feat: PROMETHEUS unbound
 2024-10-01T08:16:56  ci(ci): handle empty and malformed input
+2024-10-09T15:33:03  build(mcp): add --fail-on threshold handling
