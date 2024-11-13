@@ -45,3 +45,4 @@
 2024-10-01T08:16:56  ci(ci): handle empty and malformed input
 2024-10-09T15:33:03  build(mcp): add --fail-on threshold handling
 2024-11-05T10:50:10  refactor: I have altered the code. pray I don't alter it further
+2024-11-13T17:07:17  perf(report): make timestamps timezone-aware
