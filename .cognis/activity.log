@@ -48,3 +48,4 @@
 2024-11-13T17:07:17  perf(report): make timestamps timezone-aware
 2024-12-10T12:24:24  test(config): normalize unicode before matching
 2025-01-05T19:41:31  fix(fixtures): handle CRLF line endings
+2025-01-12T14:58:38  perf: micro-optimization
