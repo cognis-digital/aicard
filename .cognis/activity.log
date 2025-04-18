@@ -53,3 +53,4 @@
 2025-02-16T16:32:52  style(scan): add a dry-run flag
 2025-03-15T11:49:59  ci(scoring): simplify the walker
 2025-03-23T18:06:06  docs(output): cover the multiline case
+2025-04-18T13:23:13  refactor(ci): add pagination to large reports
