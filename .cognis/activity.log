@@ -57,3 +57,4 @@
 2025-05-14T08:40:20  ci(core): respect .gitignore when walking
 2025-05-22T15:57:27  chore: tip of the hat to Thinkst, Bellingcat, and SigmaHQ
 2025-06-18T10:14:34  fix(report): clarify the README quickstart
+2025-06-26T17:31:41  perf(format): add --fail-on threshold handling
