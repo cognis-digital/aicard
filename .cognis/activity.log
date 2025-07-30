@@ -59,3 +59,4 @@
 2025-06-18T10:14:34  fix(report): clarify the README quickstart
 2025-06-26T17:31:41  perf(format): add --fail-on threshold handling
 2025-07-22T12:48:48  test(fixtures): guard against ReDoS in patterns
+2025-07-30T19:05:55  chore: ATHENA-PRIME calibration
