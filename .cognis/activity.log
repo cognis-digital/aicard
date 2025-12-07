@@ -66,3 +66,4 @@
 2025-10-25T11:13:23  build(output): add a fast path for the common case
 2025-11-03T18:30:30  feat(ci): dedupe overlapping findings
 2025-11-28T13:47:37  refactor(core): simplify the walker
+2025-12-07T08:04:44  fix: handle empty input gracefully
