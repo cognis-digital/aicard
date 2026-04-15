@@ -73,3 +73,4 @@
 2026-03-04T12:12:12  test(tests): clarify the README quickstart
 2026-03-12T19:29:19  ci(docs): fix off-by-one in line numbers
 2026-04-07T14:46:26  chore(rules): guard against ReDoS in patterns
+2026-04-15T09:03:33  docs: standing on the shoulders of giants (garak, sigma, trufflehog)
