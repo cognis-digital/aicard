@@ -1,0 +1,52 @@
+{
+  "system": {
+    "name": "LoanTriage Assistant",
+    "version": "2.3.1",
+    "provider": "Greenway Credit Analytics, Inc.",
+    "intended_purpose": "Assist human loan officers by ranking incoming consumer credit applications by estimated default risk to prioritise manual review.",
+    "deployment_context": "Runs as an internal REST microservice behind the bank's case-management UI; CPU inference, batch and on-demand."
+  },
+  "governance": {
+    "owner": "Director of Model Risk, Greenway Credit Analytics",
+    "policies": [
+      "SR 11-7 model risk management",
+      "Internal AI Use Policy v4"
+    ],
+    "oversight": "Every model-flagged decline is routed to a human loan officer who must record an independent rationale before action."
+  },
+  "map": {
+    "intended_users": [
+      "Licensed loan officers",
+      "Model risk reviewers"
+    ],
+    "out_of_scope": [
+      "Fully automated approval or denial without human review",
+      "Use on small-business or commercial lending products"
+    ],
+    "risks": [
+      "Disparate impact across protected classes",
+      "Distribution shift during macroeconomic stress",
+      "Over-reliance / automation bias by reviewers"
+    ]
+  },
+  "measure": {
+    "metrics": [
+      "AUC 0.84 on 2025 holdout",
+      "KS statistic 0.51",
+      "Calibration error (ECE) 0.03"
+    ],
+    "test_data": "Stratified 2025 holdout of 180k anonymised applications, time-split from training to avoid leakage.",
+    "fairness": "",
+    "limitations": [
+      "Not validated on thin-file applicants (<3 tradelines)",
+      "Degrades when unemployment data is stale beyond 60 days"
+    ]
+  },
+  "manage": {
+    "mitigations": [
+      "Quarterly fairness re-audit with reject-inference",
+      "Confidence-band abstention routes low-confidence cases to senior review"
+    ],
+    "incident_contact": "model-risk@greenwaycredit.example"
+  }
+}
