@@ -1,0 +1,6 @@
+model_name: helpdesk-assistant
+intended_use: Answer common IT helpdesk questions
+training_data_summary: GPT-4o base + RAG over IT wiki
+evaluation_metrics: User satisfaction 4.2/5
+risk_assessment: low
+# Missing: human_oversight_plan, data_governance, transparency, post-market

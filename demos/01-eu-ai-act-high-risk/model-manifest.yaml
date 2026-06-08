@@ -1,0 +1,10 @@
+model_name: hire-screener-v2
+# Used for HR screening — EU AI Act Annex III high-risk
+intended_use: Screen incoming job applications for fit
+# Missing: training_data_summary
+# Missing: evaluation_metrics
+risk_assessment: low  # almost certainly wrong for hiring AI
+# Missing: human_oversight_plan
+# Missing: data_governance
+# Missing: transparency_disclosures
+post_market_monitoring: planned

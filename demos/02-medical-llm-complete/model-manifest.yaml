@@ -1,0 +1,9 @@
+model_name: clinical-summarizer-v1
+intended_use: Summarize patient encounter notes for physician review
+training_data_summary: 240K de-identified encounter notes, IRB-approved
+evaluation_metrics: BLEU 0.42; physician acceptance 87%; hallucination rate 1.2%
+risk_assessment: HIGH - clinical decision support
+human_oversight_plan: All outputs reviewed by attending physician before EHR entry
+data_governance: HIPAA-compliant, BAA in place, data residency US-only
+transparency_disclosures: Disclosed to patients in updated consent form
+post_market_monitoring: Quarterly bias audit, weekly hallucination sampling
