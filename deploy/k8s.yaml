@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: aicard, labels: { app: aicard } }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: aicard } }
+  template:
+    metadata: { labels: { app: aicard } }
+    spec:
+      containers:
+        - name: aicard
+          image: ghcr.io/cognis-digital/aicard:latest
+          ports: [{ containerPort: 8000 }]
+          resources:
+            requests: { cpu: "50m", memory: "64Mi" }
+            limits: { cpu: "500m", memory: "256Mi" }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: aicard }
+spec:
+  selector: { app: aicard }
+  ports: [{ port: 80, targetPort: 8000 }]
