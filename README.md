@@ -22,7 +22,7 @@ aicard scan .            # → prioritized findings in seconds
 
 ## Contents
 
-- [Why aicard?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Contributing](#contributing)
+- [Why aicard?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Related](#related) · [Contributing](#contributing)
 
 <a name="why"></a>
 ## Why aicard?
@@ -94,6 +94,20 @@ Pipes into your stack: **SARIF** for code-scanning, **JSON** for anything, an **
 | Linux | macOS | Windows | Docker | Cloud |
 |---|---|---|---|---|
 | `scripts/setup-linux.sh` | `scripts/setup-macos.sh` | `scripts/setup-windows.ps1` | `docker run ghcr.io/cognis-digital/aicard` | [DEPLOY.md](docs/DEPLOY.md) (AWS/Azure/GCP/k8s) |
+
+<div align="right"><a href="#top">↑ back to top</a></div>
+
+<a name="related"></a>
+## Related Cognis tools
+
+- [`aegis`](https://github.com/cognis-digital/aegis) — AI Agent Permission & Access Auditor — surfaces the lethal trifecta of credentials + injection + reach
+- [`promptmirror`](https://github.com/cognis-digital/promptmirror) — Prompt-injection & indirect-injection scanner for any LLM context input
+- [`ledgermind`](https://github.com/cognis-digital/ledgermind) — Local LLM cost & token forensics proxy with anomaly detection
+- [`adversa`](https://github.com/cognis-digital/adversa) — LLM red-team harness — OWASP LLM Top 10 + MITRE ATLAS attack packs
+- [`guardpost`](https://github.com/cognis-digital/guardpost) — Runtime agent firewall — PII redaction, rate limits, policy enforcement
+- [`hallumark`](https://github.com/cognis-digital/hallumark) — LLM hallucination & grounding auditor for RAG systems
+
+**Explore the suite →** [🗂️ all 170+ tools](https://github.com/cognis-digital/cognis-neural-suite) · [⭐ awesome-cognis](https://github.com/cognis-digital/awesome-cognis) · [🔗 cognis-sources](https://github.com/cognis-digital/cognis-sources) · [🤖 uncensored-fleet](https://github.com/cognis-digital/uncensored-fleet) · [🧠 hermes](https://github.com/cognis-digital/hermes)
 
 <div align="right"><a href="#top">↑ back to top</a></div>
 
