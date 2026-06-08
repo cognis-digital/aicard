@@ -36,7 +36,11 @@ Auto-generated NIST AI RMF / EU AI Act Annex IV model & system cards — without
 <a name="features"></a>
 ## Features
 
-- ✅ Scan
+- ✅ Load Descriptor
+- ✅ Evaluate
+- ✅ Render Card
+- ✅ Render Report Table
+- ✅ Report To Dict
 - ✅ Runs on Linux/macOS/Windows · Docker · devcontainer
 - ✅ Ports in Python, JavaScript, Go, and Rust (`ports/`)
 
