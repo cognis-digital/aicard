@@ -1,0 +1,10 @@
+{
+  "name": "@cognis/aicard",
+  "version": "0.2.0",
+  "description": "JavaScript port of aicard (Cognis Neural Suite)",
+  "bin": {
+    "aicard": "index.js"
+  },
+  "license": "LicenseRef-COCL-1.0",
+  "type": "module"
+}
