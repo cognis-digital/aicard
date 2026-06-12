@@ -16,7 +16,7 @@
 </div>
 
 ```bash
-pip install cognis-aicard
+pip install "git+https://github.com/cognis-digital/aicard.git"
 aicard scan .            # → prioritized findings in seconds
 ```
 
@@ -50,7 +50,7 @@ Auto-generated NIST AI RMF / EU AI Act Annex IV model & system cards — without
 ## Quick start
 
 ```bash
-pip install cognis-aicard
+pip install "git+https://github.com/cognis-digital/aicard.git"
 aicard --version
 aicard scan .                       # scan current project
 aicard scan . --format json         # machine-readable
