@@ -20,6 +20,33 @@ pip install cognis-aicard
 aicard scan .            # → prioritized findings in seconds
 ```
 
+## Usage — step by step
+
+`aicard` auto-generates and lints NIST AI RMF / EU AI Act Annex IV model & system cards from a JSON descriptor.
+
+1. **Install** (Python 3.10+):
+   ```bash
+   pip install -e .            # or: pipx install aicard
+   ```
+2. **Check a descriptor** against the disclosure requirements (human-readable table):
+   ```bash
+   aicard check demos/01-basic/system.json
+   ```
+3. **Render a Markdown model/system card** from the same descriptor:
+   ```bash
+   aicard card system.json > MODEL_CARD.md
+   ```
+4. **Read the output** as JSON (findings + embedded card markdown):
+   ```bash
+   aicard check system.json --format json | jq '.findings'
+   aicard card system.json --format json | jq -r '.card_markdown'
+   ```
+5. **Gate CI on compliance** — `check`/`card` exit `1` when any blocking finding is present, `0` when compliant, `2` on input error:
+   ```yaml
+   - run: pip install -e . && aicard check system.json   # non-zero fails the job
+   ```
+
+
 ## Contents
 
 - [Why aicard?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [Architecture](#architecture) · [AI stack](#ai-stack) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Related](#related) · [Contributing](#contributing)
