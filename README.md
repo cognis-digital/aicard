@@ -20,6 +20,12 @@ pip install "git+https://github.com/cognis-digital/aicard.git"
 aicard scan .            # → prioritized findings in seconds
 ```
 
+<!-- cognis:layman:start -->
+## What is this?
+
+`aicard` is a small, self-contained command-line tool from the Cognis suite. It does one job well, runs locally with no account or cloud service required, and is built to be easy to install and read. See the usage below for what it can do.
+<!-- cognis:layman:end -->
+
 ## Contents
 
 - [Why aicard?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [Architecture](#architecture) · [AI stack](#ai-stack) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Related](#related) · [Contributing](#contributing)
@@ -47,6 +53,42 @@ Auto-generated NIST AI RMF / EU AI Act Annex IV model & system cards — without
 <div align="right"><a href="#top">↑ back to top</a></div>
 
 <a name="quick-start"></a>
+<!-- cognis:install:start -->
+## Install
+
+`aicard` is source-available (not published to PyPI) — every method below installs
+straight from GitHub. Pick whichever you prefer; the one-line scripts auto-detect
+the best tool available on your machine.
+
+**One-liner (Linux / macOS):**
+```sh
+curl -fsSL https://raw.githubusercontent.com/cognis-digital/aicard/HEAD/install.sh | sh
+```
+
+**One-liner (Windows PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/cognis-digital/aicard/HEAD/install.ps1 | iex
+```
+
+**Or install manually — any one of:**
+```sh
+pipx install "git+https://github.com/cognis-digital/aicard.git"     # isolated (recommended)
+uv tool install "git+https://github.com/cognis-digital/aicard.git"  # uv
+pip install "git+https://github.com/cognis-digital/aicard.git"      # pip
+```
+
+**From source:**
+```sh
+git clone https://github.com/cognis-digital/aicard.git
+cd aicard && pip install .
+```
+
+Then run:
+```sh
+aicard --help
+```
+<!-- cognis:install:end -->
+
 ## Quick start
 
 ```bash
