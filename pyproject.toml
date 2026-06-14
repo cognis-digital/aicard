@@ -36,3 +36,6 @@ aicard = "aicard.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["aicard"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
