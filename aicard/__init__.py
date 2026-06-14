@@ -1,4 +1,4 @@
-"""aicard — part of the Cognis Neural Suite."""
+﻿"""aicard - part of the Cognis Neural Suite."""
 try:  # re-export the tool's public API + identity from core
     from aicard.core import *  # noqa: F401,F403
 except Exception:  # pragma: no cover
@@ -9,3 +9,6 @@ except Exception:  # pragma: no cover
     TOOL_NAME = "aicard"
     TOOL_VERSION = "0.1.0"
 __version__ = TOOL_VERSION
+from .cli import main  # noqa: E402 - must follow TOOL_VERSION assignment
+
+__all__ = ["main", "TOOL_NAME", "TOOL_VERSION", "__version__"]

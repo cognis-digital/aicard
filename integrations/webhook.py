@@ -1,11 +1,15 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Minimal, dependency-free webhook forwarder for Cognis findings.
 
 Reads JSON findings on stdin and POSTs them to a URL (SIEM/Slack/Jira bridge).
 Usage:  <tool> scan . --format json | python integrations/webhook.py --url URL
 """
 from __future__ import annotations
-import argparse, sys, urllib.request
+
+import argparse
+import sys
+import urllib.request
+
 
 def main() -> int:
     ap = argparse.ArgumentParser()
@@ -16,6 +20,10 @@ def main() -> int:
     req = urllib.request.Request(args.url, data=payload, method="POST")
     req.add_header("Content-Type", "application/json")
     for h in args.header:
+        if ":" not in h:
+            print(f"error: malformed --header {h!r} (expected 'Key: Value')",
+                  file=sys.stderr)
+            return 2
         k, _, v = h.partition(":")
         req.add_header(k.strip(), v.strip())
     try:
@@ -25,6 +33,7 @@ def main() -> int:
     except Exception as e:
         print(f"webhook error: {e}", file=sys.stderr)
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -154,11 +154,14 @@ class CardReport:
 
 def load_descriptor(path: str) -> Dict[str, Any]:
     """Load a descriptor JSON file. Raises ValueError on malformed input."""
-    with open(path, "r", encoding="utf-8") as fh:
-        try:
-            data = json.load(fh)
-        except json.JSONDecodeError as exc:
-            raise ValueError(f"{path}: invalid JSON ({exc})") from exc
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            try:
+                data = json.load(fh)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"{path}: invalid JSON ({exc})") from exc
+    except UnicodeDecodeError as exc:
+        raise ValueError(f"{path}: file is not valid UTF-8 text ({exc})") from exc
     if not isinstance(data, dict):
         raise ValueError(f"{path}: top-level descriptor must be a JSON object")
     return data
@@ -311,7 +314,7 @@ def render_report_table(report: CardReport) -> str:
     lines.append(f"{'SEV':<8} {'FRAMEWORK':<20} {'REQUIREMENT':<32} DETAIL")
     lines.append("-" * 100)
     order = {"blocker": 0, "warn": 1}
-    for f in sorted(report.findings, key=lambda x: (order[x.severity], x.key)):
+    for f in sorted(report.findings, key=lambda x: (order.get(x.severity, 2), x.key)):
         sev = "BLOCK" if f.severity == "blocker" else "WARN"
         lines.append(f"{sev:<8} {f.framework:<20} {f.title:<32} {f.detail}")
     return "\n".join(lines)

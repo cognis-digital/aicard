@@ -63,7 +63,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     try:
         descriptor = load_descriptor(args.descriptor)
-    except (OSError, ValueError) as exc:
+    except (OSError, ValueError, UnicodeDecodeError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
