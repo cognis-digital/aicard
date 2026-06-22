@@ -1,0 +1,54 @@
+{
+  "system": {
+    "name": "ActuPrice Auto Premium Model",
+    "version": "2026.1",
+    "provider": "Keystone Mutual Insurance",
+    "intended_purpose": "Estimate expected claims cost per auto-insurance applicant to inform the rating engine's base premium, subject to filed-rate constraints.",
+    "deployment_context": "Batch scoring nightly plus on-demand quote API; outputs feed a rules-based rating engine with regulatory caps."
+  },
+  "governance": {
+    "owner": "Chief Actuary, Keystone Mutual",
+    "policies": [
+      "NAIC Model Bulletin on AI use by insurers",
+      "State filed-rate compliance policy",
+      "Unfair-discrimination testing standard UDT-1"
+    ],
+    "oversight": "Actuaries review feature contributions and approve every rate filing; consumers may request an adverse-action explanation and human review."
+  },
+  "map": {
+    "intended_users": [
+      "Pricing actuaries",
+      "Rate-filing compliance team"
+    ],
+    "out_of_scope": [
+      "Claims-handling or fraud decisions",
+      "Use of prohibited or proxy variables for protected classes"
+    ],
+    "risks": [
+      "Proxy discrimination via correlated non-driving variables",
+      "Rate instability between filings",
+      "Regulatory rejection of unexplained feature effects"
+    ]
+  },
+  "measure": {
+    "metrics": [
+      "Gini coefficient on holdout: 0.41",
+      "Lift in top decile: 3.2x",
+      "Out-of-time loss-ratio stability within 4%"
+    ],
+    "test_data": "Out-of-time holdout of three policy years with developed losses, excluding any directly protected attributes from the feature set.",
+    "fairness": "",
+    "limitations": [
+      "Calibrated for personal auto only",
+      "Telematics features unavailable for ~30% of new applicants"
+    ]
+  },
+  "manage": {
+    "mitigations": [
+      "Disparate-impact testing on each candidate model before filing",
+      "Feature-effect monotonicity constraints reviewed by actuaries"
+    ],
+    "monitoring": "",
+    "incident_contact": "model-governance@keystonemutual.example"
+  }
+}

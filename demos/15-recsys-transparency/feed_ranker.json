@@ -1,0 +1,56 @@
+{
+  "system": {
+    "name": "StreamFeed Content Ranker",
+    "version": "12.7.0",
+    "provider": "Loop Social, Inc.",
+    "intended_purpose": "Rank short-form video candidates for a user's home feed to optimise watch-time and stated-interest relevance while respecting safety filters.",
+    "deployment_context": "Large-scale online serving; two-stage retrieval-then-ranking with per-request candidate sets of ~500 items."
+  },
+  "governance": {
+    "owner": "Director of Recommendations, Loop Social",
+    "policies": [
+      "DSA systemic-risk mitigation policy",
+      "Recommender-system transparency policy",
+      "Minor-safety design standard"
+    ],
+    "oversight": "Users can reset interests, switch to a non-personalised chronological feed, and report content; a trust-and-safety team reviews escalations."
+  },
+  "map": {
+    "intended_users": [
+      "Consumer end users of the home feed",
+      "Trust-and-safety reviewers"
+    ],
+    "out_of_scope": [
+      "Ranking of paid political advertising",
+      "Amplification of content flagged by safety classifiers",
+      "Personalisation for accounts identified as minors beyond a restricted policy"
+    ],
+    "risks": [
+      "Engagement-optimisation amplifying borderline or sensational content",
+      "Filter-bubble and diversity collapse",
+      "Disparate exposure for smaller creators"
+    ]
+  },
+  "measure": {
+    "metrics": [
+      "Online watch-time lift vs. control: +6.3%",
+      "Stated-interest relevance NDCG@10: 0.71",
+      "Content-diversity entropy delta vs. baseline: +0.04"
+    ],
+    "test_data": "Interleaving experiments and a 2% holdout of de-identified engagement logs with creator-tier and topic stratification.",
+    "fairness": "Creator-exposure parity tracked across creator size tiers; small-creator reach monitored against a fairness floor.",
+    "limitations": [
+      "Cold-start users receive popularity-biased rankings for ~48 hours",
+      "Diversity objective is a soft constraint, not a hard guarantee"
+    ]
+  },
+  "manage": {
+    "mitigations": [
+      "Safety-classifier demotion applied before ranking",
+      "Diversity re-ranking pass and frequency capping",
+      "DSA recommender-system option to disable personalisation"
+    ],
+    "monitoring": "Daily systemic-risk dashboards (borderline-content prevalence, diversity, minor-safety) reviewed by the integrity team with regulator-facing reporting.",
+    "incident_contact": ""
+  }
+}

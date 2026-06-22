@@ -1,0 +1,55 @@
+{
+  "system": {
+    "name": "PaymentGuard Real-Time Fraud Scorer",
+    "version": "5.1.0",
+    "provider": "Meridian Payments Ltd.",
+    "intended_purpose": "Score card-present and card-not-present transactions in real time to recommend approve / step-up / decline actions to the issuer's authorization engine.",
+    "deployment_context": "GPU inference behind the authorization gateway; <50ms p99 budget; processes ~2,400 transactions/second at peak."
+  },
+  "governance": {
+    "owner": "Head of Financial Crime Analytics, Meridian Payments",
+    "policies": [
+      "PSD2 Strong Customer Authentication policy",
+      "Internal Model Risk Standard MRS-7",
+      "PCI-DSS data handling policy"
+    ],
+    "oversight": "Step-up and decline recommendations are advisory; a rules layer and a fraud-ops analyst can override before the issuer acts on high-value transactions."
+  },
+  "map": {
+    "intended_users": [
+      "Issuer authorization systems",
+      "Fraud-operations analysts"
+    ],
+    "out_of_scope": [
+      "Account closure or law-enforcement reporting without human review",
+      "Use as the sole basis for denying access to essential payment services"
+    ],
+    "risks": [
+      "False declines disproportionately affecting thin-credit-history customers",
+      "Concept drift during fraud-pattern shifts (e.g., new BIN-attack campaigns)",
+      "Adversarial probing to learn the decision boundary"
+    ]
+  },
+  "measure": {
+    "metrics": [
+      "PR-AUC 0.91 on 2026-Q1 holdout",
+      "Recall at 0.5% false-positive rate: 0.78",
+      "Value-detection rate 0.86"
+    ],
+    "test_data": "Time-split holdout of 12M labelled transactions from 2026-Q1, with chargeback-confirmed fraud labels and a 60-day maturation window.",
+    "fairness": "False-decline rate audited across issuer geography and card tier; max disparity 1.4 percentage points, reviewed quarterly by the model-risk committee.",
+    "limitations": [
+      "Labels mature with a lag, so very recent fraud campaigns are under-represented",
+      "Not tuned for crypto on-ramp transactions"
+    ]
+  },
+  "manage": {
+    "mitigations": [
+      "Champion/challenger shadow deployment before promotion",
+      "Reason codes attached to every decline for dispute handling",
+      "Automatic fallback to rules layer if feature freshness degrades"
+    ],
+    "monitoring": "Hourly score-distribution and PSI drift monitoring with paging alerts; weekly false-decline review against confirmed-fraud labels.",
+    "incident_contact": "fincrime-modelrisk@meridianpay.example"
+  }
+}

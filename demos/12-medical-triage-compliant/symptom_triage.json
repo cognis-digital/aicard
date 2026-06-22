@@ -1,0 +1,57 @@
+{
+  "system": {
+    "name": "TriageAssist Symptom Router",
+    "version": "3.4.2",
+    "provider": "Northwind Health Technologies, Inc.",
+    "intended_purpose": "Route inbound telehealth patient messages to an acuity tier (self-care, routine, urgent, emergency) to help triage nurses prioritise their queue.",
+    "deployment_context": "On-prem inference within the hospital network; integrated into the nurse triage console; never patient-facing."
+  },
+  "governance": {
+    "owner": "Chief Medical Information Officer, Northwind Health",
+    "policies": [
+      "HIPAA Security Rule policy",
+      "FDA Clinical Decision Support governance policy",
+      "Internal AI Lifecycle Standard AILS-2"
+    ],
+    "oversight": "A licensed triage nurse reviews and may override the suggested acuity tier for every message before any patient contact; emergency-tier suggestions trigger an immediate nurse alert."
+  },
+  "map": {
+    "intended_users": [
+      "Licensed triage nurses",
+      "Telehealth clinical supervisors"
+    ],
+    "out_of_scope": [
+      "Autonomous patient communication or diagnosis",
+      "Use for pediatric patients under 2 years",
+      "Replacement of emergency-services dispatch"
+    ],
+    "risks": [
+      "Under-triage of atypical presentations (e.g., silent cardiac symptoms)",
+      "Demographic disparities in acuity assignment",
+      "Automation bias reducing nurse independent judgement"
+    ]
+  },
+  "measure": {
+    "metrics": [
+      "Under-triage rate vs. nurse gold standard: 2.1%",
+      "Macro-F1 across four acuity tiers: 0.83",
+      "Emergency-tier recall: 0.96"
+    ],
+    "test_data": "Retrospective set of 88,000 de-identified triage messages with adjudicated nurse acuity labels, IRB-approved, stratified across age and chief-complaint categories.",
+    "fairness": "Under-triage rate compared across age band, sex, and preferred language; max disparity 0.8 percentage points, within the clinical-safety threshold and re-audited quarterly.",
+    "limitations": [
+      "English and Spanish messages only",
+      "Lower confidence on messages shorter than 12 words",
+      "Not validated for inpatient or post-surgical follow-up flows"
+    ]
+  },
+  "manage": {
+    "mitigations": [
+      "Conservative bias: borderline cases default to the higher acuity tier",
+      "Low-confidence outputs are suppressed and the message is shown unranked",
+      "Quarterly clinical-safety review board sign-off"
+    ],
+    "monitoring": "Daily under-triage surveillance against nurse overrides, weekly drift monitoring, and a monthly clinical-safety dashboard with escalation paths.",
+    "incident_contact": "clinical-ai-safety@northwindhealth.example"
+  }
+}

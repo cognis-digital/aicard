@@ -25,6 +25,8 @@ from .core import (
     render_card,
     render_report_table,
     report_to_dict,
+    report_to_sarif,
+    report_to_csv,
 )
 
 
@@ -42,8 +44,11 @@ def _build_parser() -> argparse.ArgumentParser:
     chk = sub.add_parser("check",
                          help="evaluate a descriptor and report findings")
     chk.add_argument("descriptor", help="path to the system descriptor JSON")
-    chk.add_argument("--format", choices=["table", "json"], default="table",
-                     help="output format (default: table)")
+    chk.add_argument("--format",
+                     choices=["table", "json", "sarif", "csv"],
+                     default="table",
+                     help="output format: table | json | sarif | csv "
+                          "(default: table)")
 
     card = sub.add_parser("card",
                           help="render a Markdown model card from a descriptor")
@@ -72,6 +77,12 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.command == "check":
         if args.format == "json":
             print(json.dumps(report_to_dict(report), indent=2))
+        elif args.format == "sarif":
+            print(json.dumps(
+                report_to_sarif(report, descriptor_path=args.descriptor),
+                indent=2))
+        elif args.format == "csv":
+            print(report_to_csv(report), end="")
         else:
             print(render_report_table(report))
         return 0 if report.compliant else 1

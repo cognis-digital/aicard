@@ -1,0 +1,57 @@
+{
+  "system": {
+    "name": "HelpDesk GenAI Copilot",
+    "version": "4.2.0",
+    "provider": "Cognis Digital LLC",
+    "intended_purpose": "Draft suggested replies and surface knowledge-base articles to human customer-support agents handling SaaS billing and account tickets.",
+    "deployment_context": "Retrieval-augmented LLM served behind the agent console; suggestions are drafts only and never sent to customers automatically."
+  },
+  "governance": {
+    "owner": "Director of Support Operations, Cognis Digital",
+    "policies": [
+      "Generative-AI acceptable-use policy",
+      "Customer-data handling and retention policy",
+      "Human-in-the-loop standard HITL-1"
+    ],
+    "oversight": "Every drafted reply is editable and must be explicitly sent by a human agent; the copilot cannot send messages or mutate account state."
+  },
+  "map": {
+    "intended_users": [
+      "Tier-1 and tier-2 support agents",
+      "Support team leads"
+    ],
+    "out_of_scope": [
+      "Autonomous customer communication without agent review",
+      "Legal, security-incident, or contractual advice",
+      "Processing of payment card numbers in prompts"
+    ],
+    "risks": [
+      "Hallucinated policy details or fabricated entitlements",
+      "Leakage of one customer's data into another's context",
+      "Prompt injection via ticket content"
+    ]
+  },
+  "measure": {
+    "metrics": [
+      "Groundedness (answers cited to KB) rate: 0.93",
+      "Agent acceptance rate of drafts: 0.71",
+      "Hallucination rate on adversarial eval set: 1.8%"
+    ],
+    "test_data": "Curated eval set of 4,000 historical tickets with gold KB citations plus a red-team prompt-injection suite, refreshed each release.",
+    "fairness": "Response quality and tone evaluated across customer-language locales to avoid degraded service for non-English tickets; gaps tracked per release.",
+    "limitations": [
+      "Knowledge cut off to the last KB sync; may miss same-day policy changes",
+      "Lower groundedness on multi-part tickets",
+      "English, German, and Japanese only"
+    ]
+  },
+  "manage": {
+    "mitigations": [
+      "Strict per-tenant retrieval isolation",
+      "Prompt-injection input sanitisation and tool-use disabled",
+      "Citations required; uncited claims flagged to the agent"
+    ],
+    "monitoring": "Daily groundedness and injection-detection sampling, weekly hallucination review against agent edits, and alerting on citation-rate regressions.",
+    "incident_contact": "ai-support-safety@cognis.digital"
+  }
+}

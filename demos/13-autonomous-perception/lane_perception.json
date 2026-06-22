@@ -1,0 +1,52 @@
+{
+  "system": {
+    "name": "DriveSense Lane & Object Perception",
+    "version": "8.0.0-rc2",
+    "provider": "Velocity Autonomy GmbH",
+    "intended_purpose": "Detect lane boundaries, vehicles, pedestrians, and cyclists from forward camera and radar to support an SAE Level 2 driver-assistance feature.",
+    "deployment_context": "Embedded automotive SoC; real-time perception at 30Hz feeding the ADAS planning stack."
+  },
+  "governance": {
+    "owner": "Functional Safety Manager, Velocity Autonomy",
+    "policies": [
+      "ISO 26262 functional safety policy",
+      "ISO 21448 SOTIF process",
+      "UNECE R157 compliance policy"
+    ],
+    "oversight": "Level 2 system requires a continuously attentive driver; driver-monitoring enforces hands-on and gaze and disengages the feature on non-response."
+  },
+  "map": {
+    "intended_users": [
+      "Vehicle ADAS planning subsystem",
+      "Attentive human driver as fallback"
+    ],
+    "out_of_scope": [
+      "Level 3+ hands-off or eyes-off operation",
+      "Operation outside the validated operational design domain (no off-road, no unmapped construction zones)"
+    ],
+    "risks": [
+      "Missed detection of vulnerable road users in low light or glare",
+      "False lane detection on worn or ambiguous markings",
+      "Sensor degradation from occlusion (mud, snow, direct sun)"
+    ]
+  },
+  "measure": {
+    "metrics": [
+      "Pedestrian detection mAP @0.5 IoU: 0.88",
+      "Lane-boundary F1 on day clear: 0.94",
+      "VRU recall in low-light ODD slice: 0.81"
+    ],
+    "test_data": "1,100 hours of geo-diverse driving log replay plus a SOTIF edge-case scenario catalogue, partitioned by ODD condition (lighting, weather, road type).",
+    "fairness": "Pedestrian recall evaluated across skin-tone proxy bins and child-vs-adult stature to surface detection disparities; gaps tracked in the SOTIF triage log.",
+    "limitations": []
+  },
+  "manage": {
+    "mitigations": [
+      "Radar-camera sensor fusion with degraded-mode fallback",
+      "Conservative time-to-collision thresholds in low-confidence conditions",
+      "ODD exit triggers graceful handback to the driver"
+    ],
+    "monitoring": "Fleet shadow-mode disengagement and near-miss telemetry reviewed weekly; field-monitoring per ISO 21448 with OTA-gated rollouts.",
+    "incident_contact": "adas-safety@velocityautonomy.example"
+  }
+}

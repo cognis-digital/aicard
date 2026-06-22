@@ -12,8 +12,37 @@ a Markdown model card.
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional
+
+
+# --------------------------------------------------------------------------- #
+# Tool identity
+# --------------------------------------------------------------------------- #
+# Canonical home for the tool name/version; ``__init__`` and ``mcp_server``
+# re-export these. Version is read from the repo's VERSION file when present so
+# a single source of truth drives ``aicard --version``.
+TOOL_NAME = "aicard"
+
+
+def _read_version(default: str = "0.0.0") -> str:
+    candidates = [
+        os.path.join(os.path.dirname(__file__), "..", "VERSION"),
+        os.path.join(os.path.dirname(__file__), "VERSION"),
+    ]
+    for path in candidates:
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                text = fh.read().strip()
+            if text:
+                return text
+        except OSError:
+            continue
+    return default
+
+
+TOOL_VERSION = _read_version()
 
 
 # --------------------------------------------------------------------------- #
@@ -332,3 +361,113 @@ def report_to_dict(report: CardReport) -> Dict[str, Any]:
         "warning_count": len(report.warnings),
         "findings": [f.to_dict() for f in report.findings],
     }
+
+
+# --------------------------------------------------------------------------- #
+# Standards-compatible exports (SARIF 2.1.0 / CSV)
+# --------------------------------------------------------------------------- #
+
+TOOL_INFO_URI = "https://github.com/cognis-digital/aicard"
+
+# Stable rule ids so code-scanning dashboards can track findings over time.
+# AIC-<two-letter group>-<NN>, derived from the requirement catalogue order.
+def _rule_id(req_key: str) -> str:
+    idx = next((i for i, r in enumerate(REQUIREMENTS) if r.key == req_key), -1)
+    return f"AIC-{idx + 1:03d}"
+
+
+def _sarif_level(severity: str) -> str:
+    # blocker -> error (fails code-scanning gates); warn -> warning.
+    return "error" if severity == "blocker" else "warning"
+
+
+def report_to_sarif(report: CardReport,
+                    descriptor_path: str = "descriptor.json") -> Dict[str, Any]:
+    """Serialise a report as a SARIF 2.1.0 log.
+
+    Each catalogued requirement becomes a SARIF *rule*; each finding becomes a
+    *result* referencing its rule. The descriptor file is the result location,
+    so the missing disclosure surfaces in code-scanning UIs (GitHub, Azure
+    DevOps, etc.) attached to the descriptor under review.
+    """
+    # Stable rule metadata for every requirement (not just failed ones), so the
+    # SARIF consumer has the full taxonomy.
+    rules: List[Dict[str, Any]] = []
+    for req in REQUIREMENTS:
+        rules.append({
+            "id": _rule_id(req.key),
+            "name": "".join(p.capitalize() for p in req.key.split(".")),
+            "shortDescription": {"text": req.title},
+            "fullDescription": {
+                "text": f"{req.framework} {req.citation}: "
+                        f"'{req.key}' must be a substantive disclosure."
+            },
+            "defaultConfiguration": {"level": _sarif_level(req.severity)},
+            "properties": {
+                "framework": req.framework,
+                "citation": req.citation,
+                "severity": req.severity,
+                "tags": ["ai-governance", "compliance",
+                         req.framework.split()[0].lower()],
+            },
+            "helpUri": TOOL_INFO_URI,
+        })
+
+    results: List[Dict[str, Any]] = []
+    for f in report.findings:
+        results.append({
+            "ruleId": _rule_id(f.key),
+            "level": _sarif_level(f.severity),
+            "message": {
+                "text": f"{f.title} ({f.framework} {f.citation}): {f.detail}"
+            },
+            "locations": [{
+                "physicalLocation": {
+                    "artifactLocation": {"uri": descriptor_path},
+                }
+            }],
+            "properties": {
+                "descriptorKey": f.key,
+                "framework": f.framework,
+                "citation": f.citation,
+            },
+        })
+
+    return {
+        "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/"
+                   "master/Schemata/sarif-schema-2.1.0.json",
+        "version": "2.1.0",
+        "runs": [{
+            "tool": {
+                "driver": {
+                    "name": TOOL_NAME,
+                    "informationUri": TOOL_INFO_URI,
+                    "version": TOOL_VERSION,
+                    "rules": rules,
+                }
+            },
+            "results": results,
+            "properties": {
+                "coverageScore": report.score,
+                "compliant": report.compliant,
+                "totalRequirements": report.total_requirements,
+                "satisfied": report.satisfied,
+            },
+        }],
+    }
+
+
+def report_to_csv(report: CardReport) -> str:
+    """Serialise findings as RFC-4180 CSV for spreadsheets / GRC dashboards."""
+    import csv
+    import io
+
+    buf = io.StringIO()
+    writer = csv.writer(buf, lineterminator="\n")
+    writer.writerow(["rule_id", "severity", "framework", "citation",
+                     "key", "title", "detail"])
+    order = {"blocker": 0, "warn": 1}
+    for f in sorted(report.findings, key=lambda x: (order[x.severity], x.key)):
+        writer.writerow([_rule_id(f.key), f.severity, f.framework,
+                         f.citation, f.key, f.title, f.detail])
+    return buf.getvalue()

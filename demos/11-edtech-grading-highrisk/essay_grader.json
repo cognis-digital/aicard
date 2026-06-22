@@ -1,0 +1,53 @@
+{
+  "system": {
+    "name": "ScholarMark Automated Essay Scorer",
+    "version": "1.0.0",
+    "provider": "BrightPath Learning Systems",
+    "intended_purpose": "Provide a provisional 1-6 rubric score and feedback comments on student English-composition essays to assist teachers in summative grading.",
+    "deployment_context": "Cloud SaaS integrated into a school LMS; teachers receive provisional scores in a review queue."
+  },
+  "governance": {
+    "owner": "VP of Assessment Integrity, BrightPath Learning Systems",
+    "policies": [
+      "FERPA student-data policy",
+      "Responsible AI in Education charter"
+    ],
+    "oversight": "Provisional scores are not released to students until a teacher reviews and confirms each one."
+  },
+  "map": {
+    "intended_users": [
+      "Secondary-school English teachers",
+      "Assessment coordinators"
+    ],
+    "out_of_scope": [
+      "Final grade of record without teacher confirmation",
+      "High-stakes admissions or graduation decisions",
+      "Scoring of essays by English-language learners without accommodation review"
+    ],
+    "risks": [
+      "Bias against non-standard dialects and ELL writing styles",
+      "Gaming via keyword stuffing or length inflation",
+      "Over-reliance reducing teacher engagement with student work"
+    ]
+  },
+  "measure": {
+    "metrics": [
+      "Quadratic weighted kappa vs. human raters: 0.79",
+      "Exact-agreement rate with expert rater: 64%"
+    ],
+    "test_data": "",
+    "fairness": "Score gaps measured across reported student first-language; ELL essays showed a 0.4-point mean under-scoring under investigation.",
+    "limitations": [
+      "Trained primarily on US grade 9-12 prompts",
+      "Not validated for creative-writing or non-English submissions"
+    ]
+  },
+  "manage": {
+    "mitigations": [
+      "Confidence flag routes low-agreement essays to a second human reviewer",
+      "Students may request human re-grade"
+    ],
+    "monitoring": "Monthly agreement audit against a teacher-graded sample, segmented by student demographics.",
+    "incident_contact": "assessment-integrity@brightpath.example"
+  }
+}

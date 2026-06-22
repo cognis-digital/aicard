@@ -36,15 +36,38 @@ aicard scan .            # → prioritized findings in seconds
    ```bash
    aicard card system.json > MODEL_CARD.md
    ```
-4. **Read the output** as JSON (findings + embedded card markdown):
+4. **Read the output** in the format your workflow speaks — `table` (default),
+   `json`, `sarif` (SARIF 2.1.0 for code-scanning), or `csv` (GRC dashboards):
    ```bash
-   aicard check system.json --format json | jq '.findings'
-   aicard card system.json --format json | jq -r '.card_markdown'
+   aicard check system.json --format json  | jq '.findings'
+   aicard check system.json --format sarif > aicard.sarif   # upload to GitHub code-scanning
+   aicard check system.json --format csv   > findings.csv   # drop into a model-risk tracker
+   aicard card  system.json --format json  | jq -r '.card_markdown'
    ```
 5. **Gate CI on compliance** — `check`/`card` exit `1` when any blocking finding is present, `0` when compliant, `2` on input error:
    ```yaml
    - run: pip install -e . && aicard check system.json   # non-zero fails the job
    ```
+
+### Worked demos
+
+`demos/` ships realistic descriptors in the real JSON input format, each with a
+`SCENARIO.md` (provenance, expected output, exact run command, how to act):
+
+| Demo | Domain | Outcome |
+|---|---|---|
+| `01-basic/loan_triage.json` | Consumer credit scoring | non-compliant (missing monitoring) |
+| `10-fraud-detection/transaction_fraud.json` | Real-time payment fraud | **compliant** (reference shape) |
+| `11-edtech-grading-highrisk/essay_grader.json` | Automated essay scoring (Annex III) | blocker: missing test data |
+| `12-medical-triage-compliant/symptom_triage.json` | Clinical triage routing | **compliant** |
+| `13-autonomous-perception/lane_perception.json` | ADAS Level-2 perception | blocker: empty limitations |
+| `14-insurance-pricing/auto_pricing.json` | Auto-insurance premium model | warn + blocker (two findings) |
+| `15-recsys-transparency/feed_ranker.json` | Social-feed recommender (DSA) | compliant with one warning |
+| `16-genai-support-copilot/support_copilot.json` | RAG support copilot | **compliant** |
+
+```bash
+aicard check demos/14-insurance-pricing/auto_pricing.json --format csv
+```
 
 
 ## Contents
@@ -64,10 +87,12 @@ Auto-generated NIST AI RMF / EU AI Act Annex IV model & system cards — without
 ## Features
 
 - ✅ Load Descriptor
-- ✅ Evaluate
-- ✅ Render Card
+- ✅ Evaluate against 18 NIST AI RMF / EU AI Act Annex IV disclosure requirements
+- ✅ Render Card (Markdown model/system card)
 - ✅ Render Report Table
+- ✅ Export findings as JSON · **SARIF 2.1.0** · **CSV**
 - ✅ Report To Dict
+- ✅ 8 worked demos in `demos/` (credit, fraud, medical, EdTech, ADAS, insurance, recsys, GenAI)
 - ✅ Runs on Linux/macOS/Windows · Docker · devcontainer
 - ✅ Ports in Python, JavaScript, Go, and Rust (`ports/`)
 
