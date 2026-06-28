@@ -20,6 +20,46 @@ pip install cognis-aicard
 aicard scan .            # → prioritized findings in seconds
 ```
 
+
+<!-- cognis:example:start -->
+## 🔎 Example output
+
+Real, reproducible output from the tool — runs offline:
+
+```console
+$ aicard-emit --version
+aicard 0.3.8
+```
+
+```console
+$ aicard-emit --help
+usage: aicard [-h] [--version] {check,card} ...
+
+Auto-generate and lint NIST AI RMF / EU AI Act Annex IV model & system cards
+from a JSON descriptor.
+
+positional arguments:
+  {check,card}
+    check       evaluate a descriptor and report findings
+    card        render a Markdown model card from a descriptor
+
+options:
+  -h, --help    show this help message and exit
+  --version     show program's version number and exit
+
+Example: aicard check demos/01-basic/system.json --format json
+```
+
+> Blocks above are real `aicard` output — reproduce them from a clone.
+
+**Sample result format** _(illustrative values — run on your own data for real findings):_
+
+```
+{"timestamp":1643723400,"data":{"indicator":"IP:192.168.1.100","description":"Suspicious network activity","severity":"high"},"findings":[{"id":123,"title":"Network Scan","description":"Network scan detected on 192.168.1.100","category":"network"},{"id":124,"title":"File Transfer","description":"File transfer detected from 192.168.1.100","category":"file_transfer"}]}
+```
+
+<!-- cognis:example:end -->
+
 ## Usage — step by step
 
 `aicard` auto-generates and lints NIST AI RMF / EU AI Act Annex IV model & system cards from a JSON descriptor.

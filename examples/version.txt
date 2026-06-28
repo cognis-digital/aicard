@@ -1,0 +1,3 @@
+$ aicard-emit --version
+
+aicard 0.3.8

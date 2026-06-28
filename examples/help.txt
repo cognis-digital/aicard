@@ -1,0 +1,17 @@
+$ aicard-emit --help
+
+usage: aicard [-h] [--version] {check,card} ...
+
+Auto-generate and lint NIST AI RMF / EU AI Act Annex IV model & system cards
+from a JSON descriptor.
+
+positional arguments:
+  {check,card}
+    check       evaluate a descriptor and report findings
+    card        render a Markdown model card from a descriptor
+
+options:
+  -h, --help    show this help message and exit
+  --version     show program's version number and exit
+
+Example: aicard check demos/01-basic/system.json --format json
